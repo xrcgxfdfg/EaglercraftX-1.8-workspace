@@ -1,0 +1,49 @@
+🚀 Automated Porting Blueprint: Glide Client -> Fresh Eaglercraft 1.8.9
+📌 Project Architecture & Workspace Layout
+Eaglercraft Workspace Root: The current clean 1.8.9 project directory.
+Source Folder ("porting folder"): Contains the full source code and assets of the Glide Client.
+Target Package Location: src/main/java/me/eldodebug/soar/
+Target Asset Location: src/main/resources/assets/minecraft/glide/
+📂 STEP 1: File & Folder Operations (AI Execution Rules)
+1. Folders to MOVE from porting folder into Eaglercraft:
+Java Package Source: Copy porting folder/src/main/java/me ➡️ Eaglercraft_Folder/src/main/java/me
+Assets & Resources: Copy porting folder/src/main/resources/assets/minecraft/glide ➡️ Eaglercraft_Folder/src/main/resources/assets/minecraft/glide
+2. Immediate BLACKLIST (DELETE Immediately after moving):
+Do NOT port these directories/files. If they were copied during the folder move, DELETE them instantly:
+
+❌ me/eldodebug/soar/management/remote/ (DiscordRPC, UpdateManager, News, Blacklist)
+❌ me/eldodebug/soar/injection/ (Desktop Mixins; Eaglercraft uses manual game class hooks)
+❌ me/eldodebug/soar/viaversion/ (Desktop protocol translator; incompatible with Eaglercraft)
+❌ me/eldodebug/soar/utils/Sound.java (Uses desktop OpenAL drivers)
+🛠️ STEP 2: Code Conversion & Fix Rules
+When fixing compiler errors across the ported files, strictly enforce the following rules:
+
+Rule A: The Virtual File System (VFile2)
+Problem: java.io.File and Minecraft.getMinecraft().mcDataDir will crash or fail to compile in Eaglercraft.
+Fix:
+Replace all imports of java.io.File with: import net.lax1dude.eaglercraft.v1_8.internal.vfs2.VFile2;
+Replace initializations: new File("glide") ➡️ new VFile2("glide").
+Replace file creation logic: Remove .mkdir() or .createNewFile(). Replace with: if (!file.exists()) { file.setAllBytes(new byte[0]); }
+Rule B: Desktop Dependencies & Libraries
+Problem: Missing Apache Commons (ArrayUtils), Netty (ThreadLocalRandom), or desktop sound/logging libraries.
+Fix:
+Replace io.netty.util.internal.ThreadLocalRandom with java.util.Random.
+Remove org.apache.commons.lang3.ArrayUtils. Use standard Java java.util.Arrays or basic loops.
+Replace missing logger calls with System.out.println().
+Rule C: Rendering & OpenGL
+Problem: Standard LWJGL calls (GL11.gl*) cause canvas rendering errors in browser environments.
+Fix: Route all render and color operations through Eaglercraft's native state manager: net.minecraft.client.renderer.GlStateManager
+📋 STEP 3: Priority Porting Sequence
+Port and fix files in this EXACT order to prevent cascading build errors:
+
+me.eldodebug.soar.management.file.FileManager
+Update all folder fields (glideDir, profileDir, etc.) to VFile2.
+me.eldodebug.soar.Glide
+Clean out imports to remote services (Discord, Update, News).
+Ensure start() initializes FileManager first.
+Utility Classes (me.eldodebug.soar.utils.*)
+Clean up RandomUtils, ColorUtils, and MathUtils.
+Core Managers (me.eldodebug.soar.management.*)
+Port EventManager, ColorManager, ModManager, and FontManager.
+
+❌ libs/ folder and any .jar files (Desktop JAR binaries are strictly prohibited in the web build)
