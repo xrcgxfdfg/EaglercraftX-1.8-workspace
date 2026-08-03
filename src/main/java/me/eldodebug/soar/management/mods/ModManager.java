@@ -46,7 +46,6 @@ public class ModManager {
 		mods.add(new DamageTiltMod());
 		mods.add(new DamageTintMod());
 		mods.add(new DayCounterMod());
-		mods.add(new DiscordRPCMod());
 		mods.add(new EarsMod());
 		mods.add(new EntityCullingMod());
 		mods.add(new FarCameraMod());
