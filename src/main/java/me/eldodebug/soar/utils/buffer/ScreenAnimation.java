@@ -7,7 +7,6 @@ import org.lwjgl.nanovg.NVGPaint;
 import org.lwjgl.nanovg.NanoVG;
 import org.lwjgl.nanovg.NanoVGGL2;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl3.BufferUtils;
 
 import me.eldodebug.soar.Glide;
 import me.eldodebug.soar.management.nanovg.NanoVGManager;
@@ -42,7 +41,7 @@ public class ScreenAnimation {
 
 		GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
 
-		FloatBuffer floaty = BufferUtils.createFloatBuffer(16);
+		FloatBuffer floaty = FloatBuffer.allocate(16);
 		
 		GlStateManager.enableTexture2D();;
 		

@@ -12,7 +12,6 @@ import org.lwjgl.nanovg.NanoSVG;
 import org.lwjgl.nanovg.NanoVG;
 import org.lwjgl.nanovg.NanoVGGL2;
 import org.lwjgl.stb.STBImage;
-import org.lwjgl.system.MemoryUtil;
 
 import me.eldodebug.soar.logger.GlideLogger;
 import me.eldodebug.soar.utils.IOUtils;
@@ -134,7 +133,7 @@ public class AssetManager {
                 w = (int) (w * scale);
                 h = (int) (h * scale);
 
-                ByteBuffer image = MemoryUtil.memAlloc(w * h * 4);
+                ByteBuffer image = ByteBuffer.allocateDirect(w * h * 4);
                 NanoSVG.nsvgRasterize(rasterizer, svg, 0, 0, scale, image, w, h, w * 4);
 
                 NanoSVG.nsvgDeleteRasterizer(rasterizer);

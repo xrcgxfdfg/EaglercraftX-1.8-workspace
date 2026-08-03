@@ -2,10 +2,10 @@ package me.eldodebug.soar.hooks;
 
 import me.eldodebug.soar.utils.ColorUtils;
 import me.eldodebug.soar.utils.render.RenderUtils;
+import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiNewChatHook {
 

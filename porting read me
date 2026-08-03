@@ -47,3 +47,9 @@ Core Managers (me.eldodebug.soar.management.*)
 Port EventManager, ColorManager, ModManager, and FontManager.
 
 ❌ libs/ folder and any .jar files (Desktop JAR binaries are strictly prohibited in the web build)
+
+Todo
+remove desktop only IPC and logger paths
+Replace renderer and buffer imports
+Stub JSON and remote compatibility code
+verify diagnostics after edits
